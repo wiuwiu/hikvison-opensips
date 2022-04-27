@@ -58,11 +58,11 @@ RUN git clone -b 8.3.2 https://github.com/OpenSIPS/opensips-cp.git /var/www/open
 #	&& mysql --host=homeassistant --user=opensips --password=opensipsrw opensips < /usr/share/opensips/mysql/registrant-create.sql \
 #	&& mysql --host=homeassistant --user=opensips --password=opensipsrw opensips < /var/www/opensips-cp/config/db_schema.mysql
 
-COPY apache2-opensips.conf /etc/apache2/sites-available/opensips.conf
-COPY opensips.cfg /etc/opensips/opensips.cfg
-COPY sql.sh /sql.sh
+COPY src/apache2-opensips.conf /etc/apache2/sites-available/opensips.conf
+COPY src/opensips.cfg /etc/opensips/opensips.cfg
+COPY src/sql.sh /sql.sh
+COPY src/run.sh /run.sh
 RUN chmod +x /sql.sh
-COPY run.sh /run.sh
 RUN chmod +x /run.sh
 
 RUN a2dissite 000-default
@@ -71,6 +71,6 @@ RUN chown -R www-data. /var/www/opensips-cp
 
 #RUN service mariadb restart
 #RUN service apache2 restart
-EXPOSE 5060 5051
+EXPOSE 5051 5060
 
 CMD ["/bin/bash", "/run.sh"]
